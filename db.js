@@ -49,7 +49,25 @@ async function postData(title, deadline) {
     }
 }
 
+async function updateData(id) {
+    try {
+        const res = await pool.query(
+            `UPDATE assignments
+             SET submitted = true
+             WHERE id = $1
+             RETURNING *`,
+            [id]
+        )
+
+        return res.rows[0]
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 module.exports = {
     getData,
-    postData
+    postData,
+    updateData
 }
