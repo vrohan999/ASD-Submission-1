@@ -65,9 +65,24 @@ async function updateData(id) {
     }
 }
 
+async function deleteData(id) {
+    try {
+        const res = await pool.query(
+            `DELETE FROM assignments
+             WHERE id = $1
+             RETURNING *`,
+            [id]
+        )
+
+        return res.rows[0]
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
     getData,
     postData,
-    updateData
+    updateData,
+    deleteData
 }
