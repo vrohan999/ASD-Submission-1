@@ -33,8 +33,23 @@ async function getData(submitted) {
     }
 }
 
+async function postData(title, deadline) {
+    try {
+        const res = await pool.query(
+            `INSERT INTO assignments
+            (title, deadline)
+            VALUES ($1, $2)
+            RETURNING *`,
+            [title, deadline]
+        )
 
+        return res.rows[0]
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
-    getData
+    getData,
+    postData
 }
